@@ -1329,25 +1329,21 @@ QDF_STATUS ol_download_firmware(struct ol_context *ol_ctx)
 
 	if (ini_cfg->enable_uart_print) {
 		switch (target_version) {
-		case AR6004_VERSION_REV1_3:
-			param = 11;
-			break;
-		case AR6320_REV1_VERSION:
-		case AR6320_REV2_VERSION:
-		case AR6320_REV3_VERSION:
-		case AR6320_REV3_2_VERSION:
-		case QCA9379_REV1_VERSION:
-		case AR6320_REV4_VERSION:
-		case AR6320_DEV_VERSION:
-		if (hif_get_bus_type(scn) == QDF_BUS_TYPE_SDIO)
-			param = 19;
-		else
-			param = 6;
-
-			break;
-		default:
-			/* Configure GPIO AR9888 UART */
-			param = 7;
+			case AR6004_VERSION_REV1_3:
+				param = 11; break;
+			case AR6320_REV1_VERSION:
+			case AR6320_REV2_VERSION:
+			case AR6320_REV3_VERSION:
+			case AR6320_REV3_2_VERSION:
+			case QCA9379_REV1_VERSION:
+			case AR6320_REV4_VERSION:
+			case AR6320_DEV_VERSION:
+				param =
+					(hif_get_bus_type(scn) == QDF_BUS_TYPE_SDIO) ? 19 : 6;
+				break;
+			default:
+				/* Configure GPIO AR9888 UART */
+				param = 7;
 		}
 
 		bmi_write_memory(hif_hia_item_address(target_type,
